@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  back:
+    build:
+      context: .    # caminho para o Dockerfile => .
+      dockerfile: Dockerfile
+
+    ports:
+      - "3000:3000"
+    container_name: node-express
