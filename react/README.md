@@ -10,3 +10,7 @@
   - git pull: pega a última atualização do repositório
   - npm i: instala dependências
   - npm start: executa o react
+
+## executando o container:
+- baixe os arquivos Dockerfile e docker-compose.yml que estão dentro deste diretório "react"
+- dentro do diretório execute docker-compose up
