@@ -1,0 +1,69 @@
+# criar namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homolog
+
+--- # podemos criar varios tipos de serviços em um unico arquivo separando eles por ---
+
+# criar Deployment que levantará 2 pods com imagem do nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-homolog
+  namespace: homolog # associar esse Deployment a um namespace
+
+spec:
+  # quantidade de replicas
+  replicas: 2
+  selector: 
+    matchLabels: # label que define quais pods fazem parte desse deployment
+      app: frontend-homolog
+  template:
+    metadata:
+      labels: # esse pode faz parte do deployment chamado de frontend-homolog
+        app: frontend-homolog
+    spec:
+      containers:
+      - name: front-homolog # nome do container levantado
+        image: nginx # imagem que será utilizada
+        ports:
+          - containerPort: 80
+
+---
+
+# criar um serviço que gerencia meus deploys
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-hom # nome do serviço
+  namespace: homolog # nome do namespace
+spec:
+  selector:
+    app: frontend-homolog # esse serviço gerencia o Deploy chamado de frontend-homolog
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+# criar o ingress para o namespace de homolog
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-primario-homolog
+  namespace: homolog
+spec:
+  ingressClassName: nginx
+  rules: #     TROQUE PELO SEU ENDEREÇO IP
+  - host: homolog.<IP>.nip.io # o ambiente será acesso atravez dessa url
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service-hom # nome do serviço que foi criado
+            port:
+              number: 80
