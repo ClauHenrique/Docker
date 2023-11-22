@@ -16,7 +16,7 @@ Normalmente seria necessário criar manifestes diferentes para cada tipo de serv
 
 Mas nos exemplos desse repositorio estamos criando toda essa estrutura dentro de apenas um arquivo .yml
 É possivel fazer isso separadom seus serviços por ---
-  criar namespace
+"  criar namespace
     suas configurações
 
   ---
@@ -32,3 +32,4 @@ Mas nos exemplos desse repositorio estamos criando toda essa estrutura dentro de
   ---
 criar ingress
   suas configurações
+"
